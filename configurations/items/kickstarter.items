@@ -1,0 +1,15 @@
+Group All
+Group Tutorial
+Group Demos
+
+String EFM48    "EFM48" { serial="/dev/ttyUSB9:115200", autoupdate="false" }
+//String EFM48    "EFM48" { serial="COM127:9600", autoupdate="false" }
+
+Group:Switch:OR(ON, OFF) Lights	"All Lights [(%d)]" (All)
+Group:Contact:OR(OPEN, CLOSED) HAB_Switches	"All HAB_Switches [(%d)]"  (All)
+
+Group WIFI (Demos)
+	String CC3000 "CC3000" { tcp="<[10.128.3.110:*:'REGEX((.*))']"} 
+	String cc3000Temp "WiFi Temperature [%s]" (WIFI)
+
+

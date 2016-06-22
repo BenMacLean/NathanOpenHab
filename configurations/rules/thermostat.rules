@@ -1,0 +1,170 @@
+var Timer reset_timer = null
+var Timer addr_timer = null
+var Timer start_timer = null
+var String[] th_buffer
+
+
+
+rule "Thermostat Reset"
+  when 
+    System started
+  then
+    println("Start Thermostat - wait 15 seconds") 
+    reset_timer = createTimer(now.plusSeconds(15)) [|sendCommand(THERM, 'r')]
+    reset_timer.cancel
+end
+
+
+rule "Thermostat Address"
+  when 
+    System started
+  then
+    println("Send address")
+    addr_timer = createTimer(now.plusSeconds(18)) [|sendCommand(THERM, '0')]
+    addr_timer.cancel
+end
+
+
+rule "Thermostat Start"
+  when 
+    System started
+  then
+    println("Send Start Samples")
+    start_timer = createTimer(now.plusSeconds(19)) [|sendCommand(THERM, 'x')]
+    start_timer.cancel
+end
+
+rule "Reset Command" 
+  when Item F_RESET received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'r')
+      postUpdate(F_RESET, OFF)
+      println("Reset System")
+    }
+end
+
+rule "Address Command" 
+  when Item F_ADDR received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, '0')
+      postUpdate(F_ADDR, OFF)
+      println("Send Address")
+    }
+end
+
+rule "Start Samples Command" 
+  when Item F_START received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'x')
+      postUpdate(F_START, OFF)
+      println("Start System")
+    }
+end
+
+
+rule "Furnace Control Green LED Command"
+  when Item F_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'a')
+      println("Furnace Control Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, 'b')
+      println("Furnace Control Green LED OFF")
+    }
+end
+
+rule "Furnace Control Red LED Command"
+  when Item F_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'c')
+      println("Furnace Control Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, 'd')
+      println("Furnace Control Red LED OFF")
+    }
+end
+
+rule "Fan Control Green LED Command"
+  when Item A_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'i')
+      println("Fan Control Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, 'j')
+      println("Fan Control Green LED OFF")
+    }
+end
+
+rule "Fan Control Red LED Command"
+  when Item A_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'k')
+      println("Fan Control Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, 'l')
+      println("Fan Control Red LED OFF")
+    }
+end
+
+
+rule "Pressure Green LED Command"
+  when Item P_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'e')
+      println("Pressure Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, 'f')
+      println("Pressure Green LED OFF")
+    }
+end
+
+rule "Pressure Red LED Command"
+  when Item P_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, 'g')
+      println("Pressure Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, 'h')
+      println("Pressure  Red LED OFF")
+    }
+end
+
+rule "AC Relay - Heat Command"
+  when Item ACRLY1 received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, '6')
+      println("AC Relay - Heat ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, '7')
+      println("AC Relay - Heat OFF")
+    }
+end
+
+rule "AC Relay - Fan Command"
+  when Item ACRLY2 received command then
+    if(receivedCommand==ON) {
+      sendCommand(THERM, '8')
+      println("AC Relay - Fan ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THERM, '9')
+      println("AC Relay - Fan OFF")
+    }
+end
+
+
+rule "THERM Message Received"
+  when Item THERM received update then
+    th_buffer = THERM.state.toString.split(";")
+
+    if(th_buffer.get(0).contains("CO")) {
+      CO_SAMPLES.postUpdate(th_buffer.get(2))
+    } else if(th_buffer.get(0).contains("ADXL_SAMPLES")) {
+      FADXL_x.postUpdate(th_buffer.get(2))
+      FADXL_y.postUpdate(th_buffer.get(3))
+      FADXL_z.postUpdate(th_buffer.get(4))
+    } else if(th_buffer.get(0).contains("MPL3115A2")) {
+      PRESSPA.postUpdate(th_buffer.get(2))
+    } else println(th_buffer.get(0))
+
+end
+

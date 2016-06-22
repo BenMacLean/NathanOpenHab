@@ -1,0 +1,9 @@
+
+String THUM    "THUM" { serial="/dev/ttyUSB17:115200", autoupdate="false" }
+
+Group TEMPH "Temperature and Humidity Sensor" (THERMOSTAT)
+	Switch T_G_LED  "Humidity Temperature LED - Green" (TEMPH)
+	Switch T_R_LED  "Humidity Temperature LED - Red"   (TEMPH)
+	String TEMPFH     "Temperature F [%s]"               (TEMPH)
+	String RELHH      "Relative Humidity % [%s]"         (TEMPH)
+

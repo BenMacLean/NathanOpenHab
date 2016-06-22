@@ -1,0 +1,18 @@
+
+println("loaded kickstarter")
+
+
+def lightControl(var light, var message, var onCommand, var offCommand)
+{
+		if(receivedCommand==ON)
+		{
+			sendCommand(EFM48, onCommand)
+			print(message)
+			println("ON")
+		}else if(receivedCommand==OFF)
+		{
+			sendCommand(EFM48, offCommand)
+			print(message)
+			println("OFF")
+		}
+}

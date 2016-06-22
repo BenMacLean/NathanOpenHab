@@ -1,0 +1,16 @@
+sitemap engimusing label="Ben Can Program"
+{
+  Frame label="OpenHAB Tutorials" {
+    Group item=BLINK label="Check It Out!" icon="light-on"
+    Group item=HABTUTOR label="HAB Tutorial Demo" icon="icon16x16"
+    Group item=ACCEL label="Accelerometer Demo" icon="energy"
+    Group item=SERIAL label="Serial Line Demo" icon="network-on"
+  }
+  Frame label="OpenHAB Demonstrations" {
+    Group item=SECCON label="Security Contact Demo" icon="door-open"
+    Group item=WASHER label="Washer Dryer Monitor Demo" icon="energy"
+    Group item=GARAGE label="Garage Door Opener/Monitor Demo" icon="garagedoor-ajar"
+    Group item=WIFI label="WIFI Temperature Sensor Demo" icon="temperature"
+    Group item=THERMOSTAT label="Thermostat and Furnace Monitor Demo" icon="heating"
+  }
+}

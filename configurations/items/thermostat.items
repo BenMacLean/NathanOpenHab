@@ -1,0 +1,28 @@
+
+String THERM    "THERM" { serial="/dev/ttyUSB16:115200", autoupdate="false" }
+
+
+Group THERMOSTAT (Demos)
+
+Group FURNCTL "Furnace Control" <fire> (THERMOSTAT)
+	Switch F_G_LED  "Furnace Control LED - Green" (FURNCTL)
+	Switch F_R_LED  "Furnace Control LED - Red"   (FURNCTL)
+	Switch ACRLY1     "Heat Control"                (FURNCTL)
+	Switch ACRLY2     "Fan Control"                 (FURNCTL)
+	String CO_SAMPLES "CO Samples[%s]"              (FURNCTL)
+	Switch F_RESET  "Reset System" (FURNCTL)
+	Switch F_ADDR   "Send Address" (FURNCTL)
+	Switch F_START  "Start Samples" (FURNCTL)
+
+Group FANMON "Fan Monitor" <lighton> (THERMOSTAT)
+	Switch A_G_LED  "Fan LED - Green"             (FANMON)
+	Switch A_R_LED  "Fan LED - Red"               (FANMON)
+	String FADXL_x    "Fan X Acceleration[%s]"      (FANMON)
+	String FADXL_y    "Fan Y Acceleration[%s]"      (FANMON)
+	String FADXL_z    "Fan Z Acceleration[%s]"      (FANMON)
+
+Group FILTER "Filter Pressure Monitor" <energy> (THERMOSTAT)
+	Switch P_G_LED  "Pressure LED - Green"        (FILTER)
+	Switch P_R_LED  "Pressure LED - Red"          (FILTER)
+	String PRESSPA    "Pressure Pa [%s]"            (FILTER)
+

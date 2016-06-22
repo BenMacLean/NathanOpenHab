@@ -1,0 +1,36 @@
+var String[] acct_buffer
+
+
+rule "LED0 Accelerometer Command"
+  when Item LED0_ACCEL received command then
+    if(receivedCommand==ON) {
+      sendCommand(ACCELT, 'a')
+      println("LED0 Accel ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(ACCELT, 'b')
+      println("LED0 Accel OFF")
+    }
+end
+
+rule "LED1 Accelerometer Command"
+  when Item LED1_ACCEL received command then
+    if(receivedCommand==ON) {
+      sendCommand(ACCELT, 'c')
+      println("LED1 Accel ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(ACCELT, 'd')
+      println("LED1 Accel OFF")
+    }
+end
+
+rule "ACCELT Message Received"
+  when Item ACCELT received update then
+    acct_buffer = ACCELT.state.toString.split(";")
+
+    if(acct_buffer.get(0).contains("ADXL_SAMPLES")) {
+      ADXL_x.postUpdate(acct_buffer.get(1))
+      ADXL_y.postUpdate(acct_buffer.get(2))
+      ADXL_z.postUpdate(acct_buffer.get(3))
+    } else println(acct_buffer.get(0))
+end
+

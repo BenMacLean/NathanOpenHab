@@ -1,0 +1,7 @@
+
+String BLNK    "BLNK" { serial="/dev/ttyUSB10:115200", autoupdate="false" }
+
+Group BLINK (Tutorial)
+	Switch LED0_BLNK  "LED - Green" (BLINK)
+	Switch LED1_BLNK  "LED - Red"   (BLINK)
+

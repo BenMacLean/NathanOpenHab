@@ -1,0 +1,77 @@
+
+var String[] grge_buffer
+
+
+rule "Garage LED0 Command"
+  when Item LED0_GRGE received command then
+    if(receivedCommand==ON) {
+      sendCommand(GRGE, 'a')
+      println("LED0_GRGE Garage ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(GRGE, 'b')
+      println("LED0 Garage OFF")
+    }
+end
+
+rule "Garage LED1 Command"
+  when Item LED1_GRGE received command then
+    if(receivedCommand==ON) {
+      sendCommand(GRGE, 'c')
+      println("LED1_GRGE Garage ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(GRGE, 'd')
+      println("LED1 Garage OFF")
+    }
+end
+
+rule "DC Relay - Door 1 Command"
+  when Item DCRLY0 received command then
+    if(receivedCommand==ON) {
+      sendCommand(EFM48, 'e')
+      postUpdate(DCRLY0, OFF)
+      println("DC Relay - Door 1 Pulsed")
+    }
+end
+
+rule "DC Relay - Door 2"
+  when Item DCRLY1 received command then
+    if(receivedCommand==ON) {
+      sendCommand(EFM48, 'f')
+      postUpdate(DCRLY1, OFF)
+      println("DC Relay - Door 2 Pulsed")
+    }
+end
+
+
+
+rule "GRGE Message Received"
+  when Item GRGE received update then
+    grge_buffer = GRGE.state.toString.split(";")
+
+    if(grge_buffer.get(0).contains("SENS1")) {
+      if(grge_buffer.get(1).contains("ON")) {
+        postUpdate(SENS1, CLOSED);
+      } else if(grge_buffer.get(1).contains("OFF")) {
+        postUpdate(SENS1, OPEN); 
+      }
+    } else if(grge_buffer.get(0).contains("SENS2")) {
+      if(grge_buffer.get(1).contains("ON")) {
+        postUpdate(SENS2, CLOSED);
+      } else if(grge_buffer.get(1).contains("OFF")) {
+        postUpdate(SENS2, OPEN); 
+      }
+    } else if(grge_buffer.get(0).contains("SENS3")) {
+      if(grge_buffer.get(1).contains("ON")) {
+        postUpdate(SENS3, CLOSED);
+      } else if(grge_buffer.get(1).contains("OFF")) {
+        postUpdate(SENS3, OPEN); 
+      }
+    } else if(grge_buffer.get(0).contains("SENS4")) {
+      if(grge_buffer.get(1).contains("ON")) {
+        postUpdate(SENS4, CLOSED);
+      } else if(grge_buffer.get(1).contains("OFF")) {
+        postUpdate(SENS4, OPEN); 
+      }
+    } else println(grge_buffer.get(0))
+end
+

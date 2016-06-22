@@ -1,0 +1,76 @@
+var Timer wdtimer = null
+var String[] wd_buffer
+
+
+rule "Start Washer Dryer"
+  when 
+    System started
+  then
+    println("Start Washer Dryer - wait 31 seconds") 
+    wdtimer = createTimer(now.plusSeconds(31)) [|sendCommand(SERT, 'x')]
+    println("Send address")
+    wdtimer.cancel
+end
+
+
+rule "Washer Dryer Board 1 Green LED Command"
+  when Item W_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'e')
+      println("Washer Dryer Board 1 Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'f')
+      println("Washer Dryer Board 1 Green LED OFF")
+    }
+end
+
+rule "Washer Dryer Board 1 Red LED Command"
+  when Item W_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'g')
+      println("Washer Dryer Board 1 Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'h')
+      println("Washer Dryer Board 1 Red LED OFF")
+    }
+end
+
+rule "Washer Dryer Board 2 Green LED Command"
+  when Item D_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'a')
+      println("Washer Dryer Board 2 Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'b')
+      println("Washer Dryer Board 2 Green LED OFF")
+    }
+end
+
+rule "Washer Dryer Board 2 Red LED Command"
+  when Item D_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'c')
+      println("Washer Dryer Board 2 Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'd')
+      println("Washer Dryer Board 2 Red LED OFF")
+    }
+end
+
+
+rule "SERT Message Received"
+  when Item SERT received update then
+    wd_buffer = SERT.state.toString.split(";")
+
+    if(wd_buffer.get(0).contains("ADXL")) {
+      if(wd_buffer.get(1).contains("0")) {
+        WADXL_x.postUpdate(wd_buffer.get(2))
+        WADXL_y.postUpdate(wd_buffer.get(3))
+        WADXL_z.postUpdate(wd_buffer.get(4))
+      } else if(wd_buffer.get(1).contains("1")) {
+        DADXL_x.postUpdate(wd_buffer.get(2))
+        DADXL_y.postUpdate(wd_buffer.get(3))
+        DADXL_z.postUpdate(wd_buffer.get(4))
+      }
+    } else println(wd_buffer.get(0))
+end

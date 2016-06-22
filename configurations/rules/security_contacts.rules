@@ -1,0 +1,54 @@
+ 
+var String[] secc_buffer
+
+
+rule "Security Contacts LED0 Command"
+  when Item LED0_SCCNT received command then
+    if(receivedCommand==ON) {
+      sendCommand(SCCNT, 'a')
+      println("LED0_SCCNT Security Contacts ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SCCNT, 'b')
+      println("LED0 Security Contacts OFF")
+    }
+end
+
+rule "Security Contacts LED1 Command"
+  when Item LED1_SCCNT received command then
+    if(receivedCommand==ON) {
+      sendCommand(SCCNT, 'c')
+      println("LED1_SCCNT Security Contacts ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SCCNT, 'd')
+      println("LED1 Security Contacts OFF")
+    }
+end
+
+
+
+rule "SCCNT Message Received"
+  when Item SCCNT received update then
+    secc_buffer = SCCNT.state.toString.split(";")
+
+    if(secc_buffer.get(0).contains("SCNT1")) {
+      if(secc_buffer.get(1).contains("ON")) {
+        postUpdate(SCNT1, CLOSED);
+      } else if(secc_buffer.get(1).contains("OFF")) {
+        postUpdate(SCNT1, OPEN); 
+      }
+    } else if(secc_buffer.get(0).contains("SCNT2")) {
+      if(secc_buffer.get(1).contains("ON")) {
+        postUpdate(SCNT2, CLOSED);
+      } else if(secc_buffer.get(1).contains("OFF")) {
+        postUpdate(SCNT2, OPEN); 
+      }
+    } else if(secc_buffer.get(0).contains("SCNT3")) {
+      if(secc_buffer.get(1).contains("ON")) {
+        postUpdate(SCNT3, CLOSED);
+      } else if(secc_buffer.get(1).contains("OFF")) {
+        postUpdate(SCNT3, OPEN); 
+      }
+    } else println(secc_buffer.get(0))
+end
+
+

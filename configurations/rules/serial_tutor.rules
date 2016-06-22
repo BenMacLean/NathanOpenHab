@@ -1,0 +1,57 @@
+var Timer timer = null
+
+
+rule "Start Serial"
+  when 
+    System started
+  then
+    println("Start Serial - wait 30 seconds") 
+    timer = createTimer(now.plusSeconds(30)) [|sendCommand(SERT, '0')]
+    println("Send address")
+    timer.cancel
+end
+
+
+rule "Serial Line Board 1 Green LED Command"
+  when Item BD1_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'e')
+      println("Serial Line Board 1 Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'f')
+      println("Serial Line Board 1 Green LED OFF")
+    }
+end
+
+rule "Serial Line Board 1 Red LED Command"
+  when Item BD1_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'g')
+      println("Serial Line Board 1 Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'h')
+      println("Serial Line Board 1 Red LED OFF")
+    }
+end
+
+rule "Serial Line Board 2 Green LED Command"
+  when Item BD2_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'a')
+      println("Serial Line Board 2 Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'b')
+      println("Serial Line Board 2 Green LED OFF")
+    }
+end
+
+rule "Serial Line Board 2 Red LED Command"
+  when Item BD2_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(SERT, 'c')
+      println("Serial Line Board 2 Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(SERT, 'd')
+      println("Serial Line Board 2 Red LED OFF")
+    }
+end

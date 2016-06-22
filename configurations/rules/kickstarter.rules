@@ -1,0 +1,18 @@
+ 
+
+rule "Wifi Temperature"
+  when Item CC3000 received update then
+    var String temp = CC3000.state.toString.split(":").get(1)
+    println(temp)
+    cc3000Temp.postUpdate(temp);
+end
+
+rule "Initialize hab_switch states"
+  when 
+    System started
+  then
+    println("HI") 
+    HAB_Switches?.members.forEach(hab_switch | postUpdate(hab_switch, OPEN) println("HI"))
+end
+
+

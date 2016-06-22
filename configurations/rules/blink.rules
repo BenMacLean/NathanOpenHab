@@ -1,0 +1,25 @@
+
+// Blink Demo Rules
+
+rule "Blink LED0 Command"
+  when Item LED0_BLNK received command then
+    if(receivedCommand==ON) {
+      sendCommand(BLNK, 'a')
+      println("LED0 ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(BLNK, 'b')
+      println("LED0 OFF")
+    }
+end
+
+rule "Blink LED1 Command"
+  when Item LED1_BLNK received command then
+    if(receivedCommand==ON) {
+      sendCommand(BLNK, 'c')
+      println("LED1 ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(BLNK, 'd')
+      println("LED1 OFF")
+    }
+end
+

@@ -1,0 +1,14 @@
+
+
+Group WASHER (Demos)
+	Switch W_G_LED "Washer LED - Green" (WASHER)
+	Switch W_R_LED "Washer LED - Red" (WASHER)
+	Switch D_G_LED "Dryer LED - Green" (WASHER)
+	Switch D_R_LED "Dryer LED - Red" (WASHER)
+	String WADXL_x "Washer X Acceleration[%s]" (WASHER)
+	String WADXL_y "Washer Y Acceleration[%s]" (WASHER)
+	String WADXL_z "Washer Z Acceleration[%s]" (WASHER)
+	String DADXL_x "Dryer X Acceleration[%s]" (WASHER)
+	String DADXL_y "Dryer Y Acceleration[%s]" (WASHER)
+	String DADXL_z "Dryer Z Acceleration[%s]" (WASHER)
+

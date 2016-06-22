@@ -1,0 +1,128 @@
+// HAB Tutorial Rules
+
+var String[] habt_buffer
+
+rule "HAB LED0 Command"
+  when Item LED0_HABT received command then
+    if(receivedCommand==ON) {
+      sendCommand(HABT, 'a')
+      println("LED0 ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(HABT, 'b')
+      println("LED0 OFF")
+    }
+end
+
+rule "HAB LED1 Command"
+  when Item LED1_HABT received command then
+    if(receivedCommand==ON) {
+      sendCommand(HABT, 'c')
+      println("LED1 ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(HABT, 'd')
+      println("LED1 OFF")
+    }
+end
+
+rule "HAB LED Command"
+  when Item HABLED received command then
+    if(receivedCommand==ON) {
+      sendCommand(HABT, 'e')
+      println("LED2 ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(HABT, 'f')
+      println("LED2 OFF")
+    }
+end
+
+
+rule "BUZZER Command" 
+  when Item BUZZER received command then
+    if(receivedCommand==ON) {
+      sendCommand(HABT, 'g')
+      postUpdate(BUZZER, OFF)
+      println("Sound Buzzer")
+    }
+end
+
+
+rule "RED_SWITCH Command"
+  when Item RED_SWITCH received update then
+    if(RED_SWITCH.state==CLOSED) {
+      sendCommand(LED0, ON)
+      println("RED_SWITCH ON")
+    } else if(RED_SWITCH.state==OPEN) {
+      sendCommand(LED0, OFF)
+      println("RED_SWITCH OFF")
+    }
+end
+
+rule "BLACK_SWITCH Command"
+  when Item BLACK_SWITCH received update then
+    if(BLACK_SWITCH.state==CLOSED) {
+      sendCommand(LED1, ON)
+      println("BLACK_SWITCH ON")
+    } else if(BLACK_SWITCH.state==OPEN) {
+      sendCommand(LED1, OFF)
+      println("BLACK_SWITCH OFF")
+    }
+end
+
+rule "REED_SWITCH Command"
+  when Item REED_SWITCH received update then
+    if(REED_SWITCH.state==CLOSED) {
+      sendCommand(HABLED, ON)
+      println("REED_SWITCH ON")
+    } else if(REED_SWITCH.state==OPEN) {
+      sendCommand(HABLED, OFF)
+      println("REED_SWITCH OFF")
+    }
+end
+
+rule "QRE_SWITCH Command"
+  when Item QRE_SWITCH received update then
+    if(QRE_SWITCH.state==CLOSED) {
+      sendCommand(LED0, ON)
+      sendCommand(LED1, ON)
+      sendCommand(HABLED, ON)
+      println("QRE_SWITCH ON")
+    } else if(QRE_SWITCH.state==OPEN) {
+      sendCommand(LED0, OFF)
+      sendCommand(LED1, OFF)
+      sendCommand(HABLED, OFF)
+      println("QRE_SWITCH OFF")
+    }
+end
+
+rule "HABT Message Received"
+  when Item HABT received update then
+    habt_buffer = HABT.state.toString.split(";")
+
+    if(habt_buffer.get(0).contains("RED_SWITCH")) {
+      if(habt_buffer.get(1).contains("ON")) {
+        postUpdate(RED_SWITCH, CLOSED);
+      } else if(habt_buffer.get(1).contains("OFF")) {
+        postUpdate(RED_SWITCH, OPEN);
+      }
+    } else if(habt_buffer.get(0).contains("BLACK_SWITCH")) {
+      if(habt_buffer.get(1).contains("ON")) {
+        postUpdate(BLACK_SWITCH, CLOSED);
+      } else if(habt_buffer.get(1).contains("OFF")) {
+        postUpdate(BLACK_SWITCH, OPEN); 
+      }
+    } else if(habt_buffer.get(0).contains("REED_SWITCH")) {
+      if(habt_buffer.get(1).contains("ON")) {
+        postUpdate(REED_SWITCH, CLOSED);
+      } else if(habt_buffer.get(1).contains("OFF")) {
+        postUpdate(REED_SWITCH, OPEN);
+      }
+    } else if(habt_buffer.get(0).contains("QRE_SENSOR")) {
+      if(habt_buffer.get(1).contains("ON")) {
+        postUpdate(QRE_SWITCH, CLOSED);
+      } else if(habt_buffer.get(1).contains("OFF")) {
+        postUpdate(QRE_SWITCH, OPEN); 
+      }
+    } else if(habt_buffer.get(0).contains("ADC")) {
+      adcString.postUpdate(habt_buffer.get(1))
+    } else println(habt_buffer.get(0))
+end

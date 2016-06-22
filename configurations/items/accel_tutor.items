@@ -1,0 +1,11 @@
+
+String ACCELT    "ACCELT" { serial="/dev/ttyUSB12:115200", autoupdate="false" }
+
+Group ACCEL (Tutorial)
+	Switch LED0_ACCEL   "LED ACCEL - Green" (ACCEL)
+	Switch LED1_ACCEL   "LED ACCEL - Red" (ACCEL)
+	String ADXL_x "X Acceleration[%s]" <energy> (ACCEL)
+	String ADXL_y "Y Acceleration[%s]" <energy> (ACCEL)
+	String ADXL_z "Z Acceleration[%s]" <energy> (ACCEL)
+
+

@@ -1,0 +1,19 @@
+{
+  "name": "asdlfkj",
+  "version": "1.0.0",
+  "description": "============================================================================== ===                  openHAB - the open Home Automation Bus               ==== ===                          http://www.openHAB.org                       ==== ===                                                                       ==== ===                                 RUNTIME                               ==== ==============================================================================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", "start": "./start.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenMacLean/ash.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenMacLean/ash/issues"
+  },
+  "homepage": "https://github.com/BenMacLean/ash#readme"
+}

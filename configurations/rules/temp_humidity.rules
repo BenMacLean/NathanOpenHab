@@ -1,0 +1,38 @@
+var String[] thum_buffer
+
+rule "Temperature Humidity Green LED Command"
+  when Item T_G_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THUM, 'a')
+      println("Temperature Humidity Green LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THUM, 'b')
+      println("Temperature Humidity Green LED OFF")
+    }
+end
+
+rule "Temperature Humidity Red LED Command"
+  when Item T_R_LED received command then
+    if(receivedCommand==ON) {
+      sendCommand(THUM, 'c')
+      println("Temperature Humidity Red LED ON")
+    } else if(receivedCommand==OFF) {
+      sendCommand(THUM, 'd')
+      println("Temperature Humidity Red LED OFF")
+    }
+end
+
+
+rule "THUM Message Received"
+  when Item THUM received update then
+    thum_buffer = THUM.state.toString.split(";")
+
+    if(thum_buffer.get(0).contains("HTU21D")) {
+      TEMPFH.postUpdate(thum_buffer.get(2))
+      RELHH.postUpdate(thum_buffer.get(4))
+    } else println(thum_buffer.get(0))
+
+end
+
+
+

@@ -1,0 +1,8 @@
+String SERT    "SERT" { serial="/dev/ttyUSB15:115200", autoupdate="false" }
+
+Group SERIAL (Tutorial)
+	Switch BD1_G_LED  "First  Board LED - Green" (SERIAL)
+	Switch BD1_R_LED  "First  Board LED - Red"   (SERIAL)
+	Switch BD2_G_LED  "Second Board LED - Green" (SERIAL)
+	Switch BD2_R_LED  "Second Board LED - Red"   (SERIAL)
+

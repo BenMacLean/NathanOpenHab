@@ -1,0 +1,14 @@
+String HABT    "HABT" { serial="/dev/ttyUSB11:115200", autoupdate="false" }
+
+Group HABTUTOR (Tutorial)
+	Switch LED0          "LED - Green"     (HABTUTOR)
+	Switch LED1          "LED - Red"       (HABTUTOR)
+	Switch HABLED	     "HAB LED"         (HABTUTOR)
+	Contact RED_SWITCH   "Red Switch [MAP(en.map):%s]"  <switch> (HABTUTOR, HAB_Switches)
+	Contact BLACK_SWITCH "Black Switch [MAP(en.map):%s]" <switch> (HABTUTOR, HAB_Switches)
+	Contact REED_SWITCH  "Reed Switch [MAP(en.map):%s]" <switch> (HABTUTOR, HAB_Switches)
+	Contact QRE_SWITCH   "Proximity Sensor [MAP(en.map):%s]" <switch> (HABTUTOR, HAB_Switches)
+	String  adcString    "Potentiometer Voltage [%s]" (HABTUTOR)
+	Switch BUZZER        "Buzzer" <siren>  (HABTUTOR)
+
+ 

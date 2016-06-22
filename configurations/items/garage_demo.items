@@ -1,0 +1,14 @@
+
+String GRGE    "GRGE" { serial="/dev/ttyUSB14:115200", autoupdate="false" }
+
+
+Group GARAGE (Demos)
+	Switch LED0_GRGE   "LED - Green"           (GARAGE)
+	Switch LED1_GRGE   "LED - Red"             (GARAGE)
+	Switch DCRLY0      "DC Relay - Door 1"     (GARAGE)
+	Switch DCRLY1      "DC Relay - Door 2"     (GARAGE)
+	Contact SENS1 "Door 1 - Sensor 1 [MAP(en.map):%s]"  <switch> (GARAGE, HAB_Switches)
+	Contact SENS2 "Door 1 - Sensor 2 [MAP(en.map):%s]"  <switch> (GARAGE, HAB_Switches)
+	Contact SENS3 "Door 2 - Sensor 1 [MAP(en.map):%s]"  <switch> (GARAGE, HAB_Switches)
+	Contact SENS4 "Door 2 - Sensor 2 [MAP(en.map):%s]"  <switch> (GARAGE, HAB_Switches)
+

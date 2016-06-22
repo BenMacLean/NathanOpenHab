@@ -1,0 +1,10 @@
+
+String SCCNT    "SCCNT" { serial="/dev/ttyUSB13:115200", autoupdate="false" }
+
+Group SECCON (Demos)
+	Switch LED0_SCCNT  "LED - Green"     (SECCON)
+	Switch LED1_SCCNT  "LED - Red"       (SECCON)
+	Contact SCNT1      "Door Contact [MAP(en.map):%s]"  <switch> (SECCON, HAB_Switches)
+	Contact SCNT2      "Window Contact [MAP(en.map):%s]"  <switch> (SECCON, HAB_Switches)
+	Contact SCNT3      "Mailbox Contact [MAP(en.map):%s]"  <switch> (SECCON, HAB_Switches)
+
